@@ -11,4 +11,11 @@ public class GuardSettings : ScriptableObject
     public float sneakingDetectionRate = 1.0f;
     [Tooltip("The detection distance of the guard when the player is sneaking while being detected")]
     public float sneakingDetectionDistance = 3.5f;
+    public float guardPatrolSpeed;
+
+    [Header("Chase Settings")]
+    [Tooltip("Max distance a guard can be to see another chasing guard and join them")]
+    public float joinChaseMaxDistance = 10.0f;
+    public float deaggressionRate = 1.0f;
+    public float guardChaseSpeed = 5.0f;
 }

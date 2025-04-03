@@ -1,7 +1,16 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Guard : MonoBehaviour
 {
+    [System.Serializable]
+    public struct PatrolPoint
+    {
+        public Transform location;
+        [Tooltip("Time guard idles at location after arrival")]
+        public float idleDuration;
+    }
 
     public enum GuardState
     {
@@ -10,16 +19,29 @@ public class Guard : MonoBehaviour
     }
 
     [Header("References")]
-    public GuardSettings settings;
-    public Transform eyeTransform;
+    [SerializeField] private GuardSettings settings;
+    [SerializeField] private Transform eyeTransform;
+
+    [Header("Patrol Path")]
+    [SerializeField] private PatrolPoint[] patrolPath;
 
     private GameObject player;
+    private NavMeshAgent agent;
+
     private Vector3 playerLastSeen;
     private GuardState state = GuardState.Patrol;
 
+    private Coroutine patrolCoroutine;
+    private int patrolIndex = 0;
+
+    private float currentAggressionDistance = 0.0f;
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        agent = GetComponent<NavMeshAgent>();
+
+        agent.speed = settings.guardPatrolSpeed;
+        patrolCoroutine = StartCoroutine(PatrolCoroutine());
     }
 
     private void Update()
@@ -31,7 +53,7 @@ public class Guard : MonoBehaviour
                 break;
 
             case GuardState.Chase:
-
+                ChaseLoop();
                 break;
 
             default:
@@ -39,12 +61,72 @@ public class Guard : MonoBehaviour
                 break;
         }
     }
+
+    private void ChaseLoop()
+    {
+
+        if (CanSeePlayer())
+        {
+            agent.SetDestination(playerLastSeen);
+        }
+        else if(HasAgentReachedLocation())
+        {
+            currentAggressionDistance -= settings.deaggressionRate * Time.deltaTime;
+
+            if(currentAggressionDistance <= 0)
+            {
+                currentAggressionDistance = 0;
+
+                // return guard to patrol state
+                state = GuardState.Patrol;
+                agent.speed = settings.guardPatrolSpeed;
+                patrolCoroutine = StartCoroutine(PatrolCoroutine());
+                return;
+            }
+        }
+    }
+
     private void PatrolLoop()
     {
         if (CanSeePlayer())
-            Debug.Log(CanSeePlayer());
+        {
+            currentAggressionDistance += (false ? settings.sneakingDetectionRate : settings.detectionRate) * Time.deltaTime;
+            float distanceToPlayer = Vector3.Distance(eyeTransform.position, player.transform.position);
+
+            if(currentAggressionDistance > distanceToPlayer)
+            {
+                // Convert guard to chase state
+                state = GuardState.Chase;
+                agent.speed = settings.guardChaseSpeed;
+                return;
+            }
+        }
+
+        
     }
 
+    private IEnumerator PatrolCoroutine()
+    {
+        agent.SetDestination(patrolPath[patrolIndex].location.position);
+
+        while (!HasAgentReachedLocation())
+        {
+            yield return new WaitForEndOfFrame();
+        }
+
+        yield return new WaitForSeconds(patrolPath[patrolIndex].idleDuration);
+
+        patrolIndex++;
+
+        if (patrolIndex >= patrolPath.Length)
+        {
+            patrolIndex = 0;
+        }
+
+        patrolCoroutine = StartCoroutine(PatrolCoroutine());
+    }
+
+    #region utilities
     private bool CanSeePlayer(bool writeToLastSeenLocation = true)
     {
         float angleToPlayer = Vector3.Angle(eyeTransform.forward, player.transform.position - transform.position);
@@ -60,6 +142,11 @@ public class Guard : MonoBehaviour
         }
         
         return false;
+    }
+
+    private bool HasAgentReachedLocation()
+    {
+        return Vector3.Distance(transform.position, agent.destination) <= agent.stoppingDistance;
     }
 
     private void OnDrawGizmos()
@@ -85,4 +172,5 @@ public class Guard : MonoBehaviour
             Gizmos.DrawLine(transform.position, player.transform.position);
         }
     }
+    #endregion
 }
