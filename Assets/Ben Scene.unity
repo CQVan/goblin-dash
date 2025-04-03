@@ -385,7 +385,8 @@ MonoBehaviour:
   currentSpeed: 0
   moveSpeed: 5
   sneakSpeed: 0.5
-  controlCheck: 0
+  cameraTransform: {fileID: 1654398039}
+  rotationSpeed: 10
 --- !u!1 &1255314751
 GameObject:
   m_ObjectHideFlags: 0
