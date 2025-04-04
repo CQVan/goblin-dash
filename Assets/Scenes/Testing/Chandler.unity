@@ -407,7 +407,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 572816108}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: visuals
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -438,7 +438,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 791366758}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: eyes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -505,7 +505,7 @@ GameObject:
   - component: {fileID: 1069014064}
   - component: {fileID: 1069014063}
   - component: {fileID: 1069014065}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Guard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -565,6 +565,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   settings: {fileID: 11400000, guid: b62d50c88c9ce344a901b1f97b06e2c4, type: 2}
   eyeTransform: {fileID: 791366758}
+  guardLayer:
+    serializedVersion: 2
+    m_Bits: 8
   patrolPath:
   - location: {fileID: 509811530}
     idleDuration: 1

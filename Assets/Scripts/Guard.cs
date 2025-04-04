@@ -21,6 +21,7 @@ public class Guard : MonoBehaviour
     [Header("References")]
     [SerializeField] private GuardSettings settings;
     [SerializeField] private Transform eyeTransform;
+    [SerializeField] private LayerMask guardLayer;
 
     [Header("Patrol Path")]
     [SerializeField] private PatrolPoint[] patrolPath;
@@ -35,6 +36,8 @@ public class Guard : MonoBehaviour
     private int patrolIndex = 0;
 
     private float currentAggressionDistance = 0.0f;
+    private Coroutine deaggressionCoroutine = null;
+    private bool canDeaggress;
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -68,12 +71,28 @@ public class Guard : MonoBehaviour
         if (CanSeePlayer())
         {
             agent.SetDestination(playerLastSeen);
+
+            // Cancel any deaggression coroutine
+            canDeaggress = false;
+            if (deaggressionCoroutine != null)
+            {
+                StopCoroutine(deaggressionCoroutine);
+                deaggressionCoroutine = null;
+            }
+
+            // todo add contagious guard aggression
         }
         else if(HasAgentReachedLocation())
         {
-            currentAggressionDistance -= settings.deaggressionRate * Time.deltaTime;
+            if (deaggressionCoroutine == null)
+                deaggressionCoroutine = StartCoroutine(DeaggressionCoroutine());
 
-            if(currentAggressionDistance <= 0)
+            if (canDeaggress)
+            {
+                currentAggressionDistance -= settings.deaggressionRate * Time.deltaTime;
+            }
+
+            if (currentAggressionDistance <= 0)
             {
                 currentAggressionDistance = 0;
 
@@ -90,32 +109,62 @@ public class Guard : MonoBehaviour
     {
         if (CanSeePlayer())
         {
-            currentAggressionDistance += (false ? settings.sneakingDetectionRate : settings.detectionRate) * Time.deltaTime;
-            float distanceToPlayer = Vector3.Distance(eyeTransform.position, player.transform.position);
-
-            if(currentAggressionDistance > distanceToPlayer)
+            // Cancel any deaggression coroutine
+            canDeaggress = false;
+            if(deaggressionCoroutine != null)
             {
-                // Convert guard to chase state
-                state = GuardState.Chase;
-                agent.speed = settings.guardChaseSpeed;
-                return;
+                StopCoroutine(deaggressionCoroutine);
+                deaggressionCoroutine = null;
+            }
+
+            currentAggressionDistance += (false ? settings.sneakingDetectionRate : settings.detectionRate) * Time.deltaTime;
+            Debug.Log(currentAggressionDistance);
+        }
+        else
+        {
+            if (deaggressionCoroutine == null)
+                deaggressionCoroutine = StartCoroutine(DeaggressionCoroutine());
+
+            if (canDeaggress)
+            {
+                currentAggressionDistance -= settings.deaggressionRate * Time.deltaTime;
+                currentAggressionDistance = Mathf.Max(currentAggressionDistance, 0);
             }
         }
 
-        
+        // Check if guard fully detects player
+        float distanceToPlayer = Vector3.Distance(eyeTransform.position, player.transform.position);
+        if (currentAggressionDistance > distanceToPlayer)
+        {
+            // Convert guard to chase state
+            state = GuardState.Chase;
+            StopCoroutine(patrolCoroutine);
+            agent.speed = settings.guardChaseSpeed;
+            return;
+        }
+    }
+
+    private IEnumerator DeaggressionCoroutine()
+    {
+        yield return new WaitForSeconds(settings.startDeaggressionTime);
+        deaggressionCoroutine = null;
+        canDeaggress = true;
     }
 
     private IEnumerator PatrolCoroutine()
     {
         agent.SetDestination(patrolPath[patrolIndex].location.position);
 
+        // Wait until the patrol point has been reached
         while (!HasAgentReachedLocation())
         {
             yield return new WaitForEndOfFrame();
         }
 
+        // Idle guard
         yield return new WaitForSeconds(patrolPath[patrolIndex].idleDuration);
 
+        // Start next patrol coroutine
         patrolIndex++;
 
         if (patrolIndex >= patrolPath.Length)
