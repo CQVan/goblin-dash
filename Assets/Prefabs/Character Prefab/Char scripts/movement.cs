@@ -26,7 +26,7 @@ public class movement : MonoBehaviour
     }
 
     
-    void Update()
+    void FixedUpdate()
     {
         #region Movement
         playerMove.playerMovement();

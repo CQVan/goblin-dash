@@ -29,6 +29,7 @@ public class move : MonoBehaviour
     {
         currentSpeed = moveSpeed;
         rb = GetComponent<Rigidbody>();
+        rb.freezeRotation = true;
     }
 
     
