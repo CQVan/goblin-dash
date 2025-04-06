@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -6,14 +7,15 @@ public class movement : MonoBehaviour
 
     
 
-    [Header("Grounded check")]
+    [Header("Variables")]
     [SerializeField] private bool isGrounded;
+    [SerializeField] public bool isDashing;
 
     [Header("Dash Variables")]
 
     private move playerMove;
     private jump playerJump;
-    
+    private dash playerDash;
     
 
     private void Start()
@@ -22,11 +24,11 @@ public class movement : MonoBehaviour
         
         playerJump = GetComponent<jump>();
         playerMove = gameObject.GetComponent<move>();
-        
+        playerDash = GetComponent<dash>();
     }
 
     
-    void FixedUpdate()
+    void Update()
     {
         #region Movement
         playerMove.playerMovement();
@@ -41,11 +43,25 @@ public class movement : MonoBehaviour
         }
         #endregion
 
-       
+
+
+        #region Dash
+
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            playerDash.Dash();
+        }
+
+        if (playerDash.dashCooldownTimer > 0)
+        {
+            playerDash.dashCooldownTimer -= Time.deltaTime;
+        }
+
+        #endregion
 
     }
-    
-    
+
+
 
     void OnCollisionStay(Collision collision)
     {

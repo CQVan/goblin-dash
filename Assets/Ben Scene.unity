@@ -293,6 +293,7 @@ GameObject:
   - component: {fileID: 158374052}
   - component: {fileID: 158374053}
   - component: {fileID: 158374054}
+  - component: {fileID: 158374055}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -356,6 +357,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isGrounded: 0
+  isDashing: 0
 --- !u!114 &158374053
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -387,6 +389,24 @@ MonoBehaviour:
   sneakSpeed: 0.5
   cameraTransform: {fileID: 1654398039}
   rotationSpeed: 10
+--- !u!114 &158374055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 158374049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2227084ce4690da43ba9ab32fd7316bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerBody: {fileID: 0}
+  dashForce: 20
+  dashUpwardForce: 0
+  dashDuration: 0.25
+  dashCooldown: 3
+  dashCooldownTimer: 0
 --- !u!1 &1255314751
 GameObject:
   m_ObjectHideFlags: 0
