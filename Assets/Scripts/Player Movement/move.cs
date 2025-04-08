@@ -8,7 +8,7 @@ public class move : MonoBehaviour
 
     public float currentSpeed = 0.0f;
 
-    public float moveSpeed = 5.0f;
+    public float moveSpeed = -5.0f;
 
     private bool isSneaking;
 
