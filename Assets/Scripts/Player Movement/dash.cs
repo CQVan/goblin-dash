@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class dash : MonoBehaviour
@@ -9,7 +10,7 @@ public class dash : MonoBehaviour
     public Transform playerBody;
 
     [Header("Dashing variables")]
-    public float dashForce, dashUpwardForce, dashDuration;
+    public float dashForce, dashUpwardForce, dashDuration, startTime;
 
     
 
@@ -23,10 +24,16 @@ public class dash : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         playerMovement = GetComponent<movement>();
+        playerMove = GetComponent<move>();
 
     }
 
+    
+
+    
+    
     private Vector3 delayedForceToApply;
+    #region dash
     public void Dash()
     {
         //If the timer is greater than 0 and you're still dashing, return the fuction. Else is that the timer is now the cooldown for the dash
@@ -38,13 +45,15 @@ public class dash : MonoBehaviour
 
         //force that will be applied to the dash
         Vector3 forceToApply = playerBody.forward * dashForce + playerBody.up * dashUpwardForce;
+        
 
         //delays for about 0.025 seconds before the actual dash force is applied to the movement
         delayedForceToApply = forceToApply;
         Invoke(nameof(DelayedDashForce), 0.025f);
 
         //Adds the force to the player
-        rb.AddForce(forceToApply, ForceMode.Impulse);
+        rb.AddForce(forceToApply * 5f, ForceMode.Impulse);
+        
 
         //Stops the dash after a certain duration
         Invoke(nameof(ResetDash), dashDuration);
@@ -61,4 +70,6 @@ public class dash : MonoBehaviour
     {
         playerMovement.isDashing = false;
     }
+    
+    #endregion 
 }
