@@ -7,7 +7,7 @@ public class detection_script : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            SceneManager.LoadScene(1);
+            Debug.Log("HIT");
         }
     }
 }

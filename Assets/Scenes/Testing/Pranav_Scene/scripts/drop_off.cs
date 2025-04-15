@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ public class drop_off : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        text.enabled = false;
     }
 
     // Update is called once per frame
@@ -17,11 +18,18 @@ public class drop_off : MonoBehaviour
         
     }
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider collision)
     {
-        if (other.gameObject == player)
+        if (collision.gameObject == player)
         {
-            text.enabled = true;
+            StartCoroutine(showCompleted());
         }
+    }
+
+    private IEnumerator showCompleted()
+    {
+        text.enabled=true;
+        yield return new WaitForSeconds(5f);
+        text.enabled=false;
     }
 }
