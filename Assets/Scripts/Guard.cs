@@ -29,7 +29,7 @@ public class Guard : MonoBehaviour
     private GameObject player;
     private NavMeshAgent agent;
 
-    private Vector3 playerLastSeen;
+    private static Vector3 playerLastSeen;
     private GuardState state = GuardState.Patrol;
 
     private Coroutine patrolCoroutine;
@@ -38,6 +38,11 @@ public class Guard : MonoBehaviour
     private float currentAggressionDistance = 0.0f;
     private Coroutine deaggressionCoroutine = null;
     private bool canDeaggress;
+
+    private bool forcedAggression = false;
+    [HideInInspector] public float joinChaseTimer = 0;
+    private Coroutine joinChaseTimerResetCoroutine = null;
+
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -71,7 +76,6 @@ public class Guard : MonoBehaviour
 
         if (CanSeePlayer())
         {
-            agent.SetDestination(playerLastSeen);
 
             // Cancel any deaggression coroutine
             canDeaggress = false;
@@ -96,7 +100,10 @@ public class Guard : MonoBehaviour
                 // check if guard can see other guard
                 if (!Physics.Linecast(transform.position, guard.transform.position)) continue;
 
+                guard.IncrementChaseJoinTimer(currentAggressionDistance);
+
                 //TODO start chase
+                forcedAggression = true;
             }
         }
         else if (HasAgentReachedLocation())
@@ -120,9 +127,41 @@ public class Guard : MonoBehaviour
                 state = GuardState.Patrol;
                 agent.speed = settings.guardPatrolSpeed;
                 patrolCoroutine = StartCoroutine(PatrolCoroutine());
+                forcedAggression = false;
                 return;
             }
         }
+
+        agent.SetDestination(playerLastSeen);
+    }
+
+    public void IncrementChaseJoinTimer(float newAggression)
+    {
+        if (forcedAggression) return;
+
+        joinChaseTimer += Time.deltaTime;
+
+        joinChaseTimerResetCoroutine ??= StartCoroutine(JoinChaseResetCoroutine());
+
+        if (joinChaseTimer < settings.timeToJoinChase) return;
+
+        forcedAggression = true;
+        currentAggressionDistance = newAggression;
+
+        Debug.Log("aggression forced: " + gameObject.name, this);
+
+        // Convert guard to chase state
+        state = GuardState.Chase;
+        if(patrolCoroutine != null)
+            StopCoroutine(patrolCoroutine);
+        agent.speed = settings.guardChaseSpeed;
+
+        if (joinChaseTimerResetCoroutine != null)
+        {
+            StopCoroutine(joinChaseTimerResetCoroutine);
+            joinChaseTimerResetCoroutine = null;
+        }
+        joinChaseTimer = 0;
     }
 
     private void PatrolLoop()
@@ -138,7 +177,7 @@ public class Guard : MonoBehaviour
             }
 
             currentAggressionDistance += (false ? settings.sneakingDetectionRate : settings.detectionRate) * Time.deltaTime;
-            Debug.Log(currentAggressionDistance);
+            //Debug.Log(currentAggressionDistance);
         }
         else
         {
@@ -195,6 +234,12 @@ public class Guard : MonoBehaviour
         }
 
         patrolCoroutine = StartCoroutine(PatrolCoroutine());
+    }
+
+    private IEnumerator JoinChaseResetCoroutine()
+    {
+        yield return new WaitForSeconds(settings.timeToResetJoinChase);
+        joinChaseTimer = 0;
     }
 
     #region utilities
