@@ -23,7 +23,7 @@ public class movement : MonoBehaviour
         //currentSpeed = moveSpeed;
         
         playerJump = GetComponent<jump>();
-        playerMove = gameObject.GetComponent<move>();
+        playerMove = GetComponent<move>();
         playerDash = GetComponent<dash>();
     }
 
@@ -46,17 +46,21 @@ public class movement : MonoBehaviour
 
 
         #region Dash
-
+        /*
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
+            
             playerDash.Dash();
+            
         }
 
+
+        
         if (playerDash.dashCooldownTimer > 0)
         {
             playerDash.dashCooldownTimer -= Time.deltaTime;
         }
-
+        */
         #endregion
 
     }

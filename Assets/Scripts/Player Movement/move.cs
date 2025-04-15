@@ -8,7 +8,7 @@ public class move : MonoBehaviour
 
     public float currentSpeed = 0.0f;
 
-    public float moveSpeed = 5.0f;
+    public float moveSpeed = -5.0f;
 
     private bool isSneaking;
 
@@ -18,12 +18,19 @@ public class move : MonoBehaviour
     public Transform cameraTransform;
 
     public float rotationSpeed = 10.0f;
-    
 
     private Rigidbody rb;
-    
 
-    
+    [Header("Dash Variables")]
+    [SerializeField] private float dashSpeed = 25f;
+    [SerializeField] private float dashDuration = 0.2f;
+    [SerializeField] private float dashCooldown = 1f;
+
+    private bool isDashing = false;
+    private float dashStartTime;
+    private float lastDashTime;
+    private Vector3 dashDirection;
+
 
     void Start()
     {
@@ -46,6 +53,28 @@ public class move : MonoBehaviour
         //Normalizes the vector3 to keep diagonal movement the same speed
         Vector3 moveDirection = new Vector3(moveX, 0, moveZ).normalized;
 
+        // Handle dash input
+        if (Input.GetKeyDown(KeyCode.LeftShift) && Time.time >= lastDashTime + dashCooldown && moveDirection.magnitude > 0.1f && !isDashing)
+        {
+            StartDash(moveDirection);
+        }
+
+        if (isDashing)
+        {
+            rb.linearVelocity = new Vector3(dashDirection.x * dashSpeed, rb.linearVelocity.y, dashDirection.z * dashSpeed);
+
+            if (Time.time >= dashStartTime + dashDuration)
+            {
+                isDashing = false;
+            }
+
+            return; // Skip regular movement during dash
+        }
+
+
+
+
+
         if (moveDirection.magnitude >= 0.1f)
         {
             // Get camera's forward direction without the Y component
@@ -64,7 +93,21 @@ public class move : MonoBehaviour
             //Apply movement (One I created beforehand)
             rb.linearVelocity = new Vector3(move.x * currentSpeed, rb.linearVelocity.y, move.z * currentSpeed);
 
+
+
+
+
+
+
+
+
+
+
         }
+
+
+
+
 
 
 
@@ -82,7 +125,29 @@ public class move : MonoBehaviour
             currentSpeed = moveSpeed = 5.0f;
             isSneaking= false;
         }
+
+
+
+
+
+
     }
-    
+    public void StartDash(Vector3 inputDirection)
+    {
+        isDashing = true;
+        dashStartTime = Time.time;
+        lastDashTime = Time.time;
+
+        Vector3 cameraForward = cameraTransform.forward;
+        cameraForward.y = 0f;
+        cameraForward.Normalize();
+
+        Vector3 move = cameraForward * inputDirection.z + cameraTransform.right * inputDirection.x;
+        dashDirection = move.normalized;
+    }
+
+
+
+
 
 }
