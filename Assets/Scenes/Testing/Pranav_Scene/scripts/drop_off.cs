@@ -4,6 +4,7 @@ using UnityEngine;
 public class drop_off : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI text;
+    [SerializeField] private GameObject player;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -18,6 +19,9 @@ public class drop_off : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        text.enabled = true;
+        if (other.gameObject == player)
+        {
+            text.enabled = true;
+        }
     }
 }
