@@ -38,6 +38,7 @@ public class Guard : MonoBehaviour
     private float currentAggressionDistance = 0.0f;
     private Coroutine deaggressionCoroutine = null;
     private bool canDeaggress;
+    private bool preventDegress = false;
 
     private bool forcedAggression = false;
     [HideInInspector] public float joinChaseTimer = 0;
@@ -113,7 +114,7 @@ public class Guard : MonoBehaviour
                 deaggressionCoroutine = StartCoroutine(DeaggressionCoroutine());
 
             // Check if timer finished
-            if (canDeaggress)
+            if (canDeaggress || preventDegress)
             {
                 currentAggressionDistance -= settings.deaggressionRate * Time.deltaTime;
             }
@@ -135,6 +136,26 @@ public class Guard : MonoBehaviour
         agent.SetDestination(playerLastSeen);
     }
 
+    public void ForceAggrestion(float newAggression)
+    {
+        currentAggressionDistance = newAggression;
+
+        Debug.Log("aggression forced: " + gameObject.name, this);
+
+        // Convert guard to chase state
+        state = GuardState.Chase;
+        if (patrolCoroutine != null)
+            StopCoroutine(patrolCoroutine);
+        agent.speed = settings.guardChaseSpeed;
+    }
+
+    public IEnumerator PreventDegress(float duration)
+    {
+        preventDegress = true;
+        yield return new WaitForSeconds(duration);
+        preventDegress = false;
+    }
+
     public void IncrementChaseJoinTimer(float newAggression)
     {
         if (forcedAggression) return;
@@ -146,15 +167,7 @@ public class Guard : MonoBehaviour
         if (joinChaseTimer < settings.timeToJoinChase) return;
 
         forcedAggression = true;
-        currentAggressionDistance = newAggression;
-
-        Debug.Log("aggression forced: " + gameObject.name, this);
-
-        // Convert guard to chase state
-        state = GuardState.Chase;
-        if(patrolCoroutine != null)
-            StopCoroutine(patrolCoroutine);
-        agent.speed = settings.guardChaseSpeed;
+        ForceAggrestion(newAggression);
 
         if (joinChaseTimerResetCoroutine != null)
         {
@@ -184,7 +197,7 @@ public class Guard : MonoBehaviour
             if (deaggressionCoroutine == null)
                 deaggressionCoroutine = StartCoroutine(DeaggressionCoroutine());
 
-            if (canDeaggress)
+            if (canDeaggress || preventDegress)
             {
                 currentAggressionDistance -= settings.deaggressionRate * Time.deltaTime;
                 currentAggressionDistance = Mathf.Max(currentAggressionDistance, 0);
