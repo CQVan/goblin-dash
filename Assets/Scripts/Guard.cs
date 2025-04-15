@@ -65,6 +65,7 @@ public class Guard : MonoBehaviour
         }
     }
 
+    Collider[] guardsNearby = new Collider[32];
     private void ChaseLoop()
     {
 
@@ -80,18 +81,37 @@ public class Guard : MonoBehaviour
                 deaggressionCoroutine = null;
             }
 
-            // todo add contagious guard aggression
+            int guards = Physics.OverlapCapsuleNonAlloc(transform.position, transform.position + Vector3.up, settings.joinChaseMaxDistance, guardsNearby, guardLayer);
+
+            for(int i = 0; i < guards; i++)
+            {
+                // check if collider is a guard
+                if (!guardsNearby[i].TryGetComponent<Guard>(out var guard)) continue;
+
+                // prevent guard from aggroing himself
+                if (guard == this) continue;
+
+                Debug.DrawLine(transform.position, guard.transform.position);
+
+                // check if guard can see other guard
+                if (!Physics.Linecast(transform.position, guard.transform.position)) continue;
+
+                //TODO start chase
+            }
         }
-        else if(HasAgentReachedLocation())
+        else if (HasAgentReachedLocation())
         {
+            // Start deaggression timer if not started
             if (deaggressionCoroutine == null)
                 deaggressionCoroutine = StartCoroutine(DeaggressionCoroutine());
 
+            // Check if timer finished
             if (canDeaggress)
             {
                 currentAggressionDistance -= settings.deaggressionRate * Time.deltaTime;
             }
 
+            // Deaggro if run out of aggression distance
             if (currentAggressionDistance <= 0)
             {
                 currentAggressionDistance = 0;
@@ -153,6 +173,8 @@ public class Guard : MonoBehaviour
 
     private IEnumerator PatrolCoroutine()
     {
+        if (patrolPath.Length == 0) yield break;
+
         agent.SetDestination(patrolPath[patrolIndex].location.position);
 
         // Wait until the patrol point has been reached
@@ -195,7 +217,7 @@ public class Guard : MonoBehaviour
 
     private bool HasAgentReachedLocation()
     {
-        return Vector3.Distance(transform.position, agent.destination) <= agent.stoppingDistance;
+        return Vector3.Distance(transform.position, agent.destination) <= agent.stoppingDistance || agent.pathStatus == NavMeshPathStatus.PathPartial;
     }
 
     private void OnDrawGizmos()
