@@ -149,6 +149,11 @@ public class Guard : MonoBehaviour
         agent.speed = settings.guardChaseSpeed;
     }
 
+    public void UpdatePlayerLastSeen(Vector3 location)
+    {
+        playerLastSeen = location;
+    }
+
     public IEnumerator PreventDegress(float duration)
     {
         preventDegress = true;
