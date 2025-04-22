@@ -242,7 +242,7 @@ Material:
     - _RGB_Metalness: {r: 0, g: 0, b: 0, a: 0}
     - _RGB_NormalIntensity: {r: 1, g: 1, b: 1, a: 0}
     - _RGB_Roughness: {r: 1, g: 1, b: 1, a: 0}
-    - _Tile: {r: 0.4, g: 0.4, b: 0, a: 0}
+    - _Tile: {r: 1, g: 1, b: 0, a: 0}
     - _UV_RGB: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
