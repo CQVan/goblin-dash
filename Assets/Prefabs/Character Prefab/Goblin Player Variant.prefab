@@ -1003,6 +1003,7 @@ GameObject:
   - component: {fileID: 3593198609186104297}
   - component: {fileID: 8799141622023736490}
   - component: {fileID: 2939755769013111504}
+  - component: {fileID: 7337578851432166884}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -1102,10 +1103,33 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.036858656
-  m_Height: 0.021432996
+  m_Radius: 0.011
+  m_Height: 0.058968667
   m_Direction: 2
-  m_Center: {x: 0, y: -0.0019367606, z: 0.035}
+  m_Center: {x: -2.5862252e-17, y: -0.0019367611, z: 0.02910132}
+--- !u!136 &7337578851432166884
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8308156623186867868}
+  m_Material: {fileID: 13400000, guid: 1a2cea20b6ee397449080590000e5af8, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.012
+  m_Height: 0.055
+  m_Direction: 2
+  m_Center: {x: -2.5862252e-17, y: -0.0019367611, z: 0.02910132}
 --- !u!1 &8638019816304887326
 GameObject:
   m_ObjectHideFlags: 0
@@ -1201,6 +1225,10 @@ PrefabInstance:
     - target: {fileID: 995618276928211925, guid: 4d58141552278a74cbe2233302ff9594, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0.054731146
+      objectReference: {fileID: 0}
+    - target: {fileID: 1369933499037345889, guid: 4d58141552278a74cbe2233302ff9594, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7180526521282027922, guid: 4d58141552278a74cbe2233302ff9594, type: 3}
       propertyPath: m_LocalRotation.w
