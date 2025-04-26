@@ -32,11 +32,17 @@ public class move : MonoBehaviour
     private Vector3 dashDirection;
 
 
+    
+
+
     void Start()
     {
         currentSpeed = moveSpeed;
+
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
+
+        
     }
 
     

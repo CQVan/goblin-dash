@@ -16,7 +16,10 @@ public class movement : MonoBehaviour
     private move playerMove;
     private jump playerJump;
     private dash playerDash;
-    
+
+    [Header("Dash Variables")]
+    public ParticleSystem DustparticleSystem;
+    private Vector3 previousPosition;
 
     private void Start()
     {
@@ -25,6 +28,9 @@ public class movement : MonoBehaviour
         playerJump = GetComponent<jump>();
         playerMove = GetComponent<move>();
         playerDash = GetComponent<dash>();
+
+        DustparticleSystem = GetComponent<ParticleSystem>();
+        previousPosition = transform.position;
     }
 
     
@@ -42,8 +48,6 @@ public class movement : MonoBehaviour
             playerJump.playerJump();
         }
         #endregion
-
-
 
         #region Dash
         /*
@@ -63,17 +67,43 @@ public class movement : MonoBehaviour
         */
         #endregion
 
+        //Controlls whether the particle system turns on and off within relation to the players position
+        if (transform.position != previousPosition && isGrounded)
+        {
+            if (!DustparticleSystem.isPlaying)
+            {
+                DustparticleSystem.Play();
+            }
+        }
+        else
+        {
+            if (DustparticleSystem.isPlaying)
+            {
+                DustparticleSystem.Stop();
+            }
+        }
+        previousPosition = transform.position;
     }
 
 
 
     void OnCollisionStay(Collision collision)
     {
-        isGrounded = true;
+        if (collision.gameObject.tag == "Ground")
+            isGrounded = true;
+
+        
     }
 
+    
     void OnCollisionExit(Collision collision)
     {
+        if (collision.gameObject.tag != "Ground")
+        {
+            isGrounded = false;
+        }
         isGrounded = false;
+            
     }
+    
 }

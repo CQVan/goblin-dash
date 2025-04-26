@@ -17,6 +17,8 @@ public class GuardSettings : ScriptableObject
     [Header("Chase Settings")]
     [Tooltip("Max distance a guard can be to see another chasing guard and join them")]
     public float joinChaseMaxDistance = 10.0f;
+    public float timeToJoinChase = 2.0f;
+    public float timeToResetJoinChase;
     public float deaggressionRate = 1.0f;
     public float guardChaseSpeed = 5.0f;
 }
