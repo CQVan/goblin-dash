@@ -40,13 +40,20 @@ public class SoundManager : MonoBehaviour
         ApplyVolumePrefs();
     }
 
+    public void UpdateVolumePrefs(float masterVol, float musicVol, float sfxVol)
+    {
+        PlayerPrefs.SetFloat("masterVolume", masterVol);
+        PlayerPrefs.SetFloat("musicVolume", musicVol);
+        PlayerPrefs.SetFloat("sfxVolume", sfxVol);
+    }
+
     public void ApplyVolumePrefs()
     {
-        if (PlayerPrefs.HasKey("masterVolume"))
+        if (!PlayerPrefs.HasKey("masterVolume"))
             PlayerPrefs.SetFloat("masterVolume", 1);
-        if (PlayerPrefs.HasKey("musicVolume"))
+        if (!PlayerPrefs.HasKey("musicVolume"))
             PlayerPrefs.SetFloat("musicVolume", 1);
-        if (PlayerPrefs.HasKey("sfxVolume"))
+        if (!PlayerPrefs.HasKey("sfxVolume"))
             PlayerPrefs.SetFloat("sfxVolume", 1);
 
         masterVolume = PlayerPrefs.GetFloat("masterVolume");
