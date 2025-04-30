@@ -9,6 +9,7 @@ public class MainMenuManager : MonoBehaviour
     public SceneAsset startScene;
     public RawImage ftbImage;
     public GameObject mainMenuButtons;
+    public GameObject creditsMenu;
     public float fadeToBlackTime;
 
     [Header("Option Refs")]
@@ -21,6 +22,7 @@ public class MainMenuManager : MonoBehaviour
     {
         mainMenuButtons.SetActive(true);
         optionsMenu.SetActive(false);
+        creditsMenu.SetActive(false);
     }
 
     public void OnStartClick()
@@ -38,7 +40,9 @@ public class MainMenuManager : MonoBehaviour
 
     public void OnCreditsClick()
     {
-
+        optionsMenu.SetActive(false);
+        mainMenuButtons.SetActive(false);
+        creditsMenu.SetActive(true);
     }
 
     public void OnOptionSaveClick()
@@ -55,12 +59,14 @@ public class MainMenuManager : MonoBehaviour
     {
         optionsMenu.SetActive(false);
         mainMenuButtons.SetActive(true);
+        creditsMenu.SetActive(false);
     }
 
     public void OnOptionsClick()
     {
         mainMenuButtons.SetActive(false);
         optionsMenu.SetActive(true);
+        creditsMenu.SetActive(false);
 
         float masterVolume = PlayerPrefs.GetFloat("masterVolume");
         float musicVolume = PlayerPrefs.GetFloat("musicVolume");
