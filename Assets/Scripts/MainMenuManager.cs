@@ -18,6 +18,11 @@ public class MainMenuManager : MonoBehaviour
     public Slider musicSlider;
     public Slider sfxSlider;
 
+    [Header("SoundFXs")]
+    public AudioClip optionsSaveSound;
+    public AudioClip startPressedSound;
+    public AudioClip buttonPressSound;
+
     public void Start()
     {
         mainMenuButtons.SetActive(true);
@@ -27,6 +32,7 @@ public class MainMenuManager : MonoBehaviour
 
     public void OnStartClick()
     {
+        SoundManager.instance.PlayOneshotAudio(startPressedSound, Camera.main.transform.position, SoundManager.SoundType.sfx);
         AsyncOperation sceneLoadOp = SceneManager.LoadSceneAsync(startScene.name, LoadSceneMode.Single);
         sceneLoadOp.allowSceneActivation = false;
 
@@ -43,6 +49,8 @@ public class MainMenuManager : MonoBehaviour
         optionsMenu.SetActive(false);
         mainMenuButtons.SetActive(false);
         creditsMenu.SetActive(true);
+
+        SoundManager.instance.PlayOneshotAudio(buttonPressSound, Camera.main.transform.position, SoundManager.SoundType.sfx);
     }
 
     public void OnOptionSaveClick()
@@ -52,6 +60,7 @@ public class MainMenuManager : MonoBehaviour
         float sfxVol = sfxSlider.value;
 
         SoundManager.instance.UpdateVolumePrefs(masterVol, musicVol, sfxVol);
+        SoundManager.instance.PlayOneshotAudio(optionsSaveSound, Camera.main.transform.position, SoundManager.SoundType.sfx);
 
     }
 
@@ -60,10 +69,12 @@ public class MainMenuManager : MonoBehaviour
         optionsMenu.SetActive(false);
         mainMenuButtons.SetActive(true);
         creditsMenu.SetActive(false);
+        SoundManager.instance.PlayOneshotAudio(buttonPressSound, Camera.main.transform.position, SoundManager.SoundType.sfx);
     }
 
     public void OnOptionsClick()
     {
+        SoundManager.instance.PlayOneshotAudio(buttonPressSound, Camera.main.transform.position, SoundManager.SoundType.sfx);
         mainMenuButtons.SetActive(false);
         optionsMenu.SetActive(true);
         creditsMenu.SetActive(false);
