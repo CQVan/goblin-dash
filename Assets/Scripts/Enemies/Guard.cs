@@ -19,7 +19,7 @@ public class Guard : MonoBehaviour
     }
 
     [Header("References")]
-    [SerializeField] private GuardSettings settings;
+    public GuardSettings settings;
     [SerializeField] private Transform eyeTransform;
     [SerializeField] private LayerMask guardLayer;
 
@@ -85,6 +85,8 @@ public class Guard : MonoBehaviour
                 StopCoroutine(deaggressionCoroutine);
                 deaggressionCoroutine = null;
             }
+            else
+                currentAggressionDistance = Mathf.Min(currentAggressionDistance + settings.detectionRate * Time.deltaTime, settings.detectionStartDistance);
 
             int guards = Physics.OverlapCapsuleNonAlloc(transform.position, transform.position + Vector3.up, settings.joinChaseMaxDistance, guardsNearby, guardLayer);
 
@@ -261,6 +263,9 @@ public class Guard : MonoBehaviour
     }
 
     #region utilities
+
+    public float GetCurrentAggroDistance() { return currentAggressionDistance; }
+
     private bool CanSeePlayer(bool writeToLastSeenLocation = true)
     {
         float angleToPlayer = Vector3.Angle(eyeTransform.forward, player.transform.position - transform.position);
@@ -270,6 +275,10 @@ public class Guard : MonoBehaviour
 
         if (detectionDistance > distanceToPlayer && Mathf.Abs(angleToPlayer) < settings.detectionAngle / 2.0f)
         {
+            if (Physics.Linecast(transform.position, player.transform.position, out RaycastHit hit))
+                if (!hit.collider.CompareTag("Player"))
+                    return false;
+
             if(writeToLastSeenLocation)
                 playerLastSeen = player.transform.position;
             return true;
