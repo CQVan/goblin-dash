@@ -22,6 +22,7 @@ public class Guard : MonoBehaviour
     public GuardSettings settings;
     [SerializeField] private Transform eyeTransform;
     [SerializeField] private LayerMask guardLayer;
+    [SerializeField] private GameObject aggroDecal;
 
     [Header("Patrol Path")]
     [SerializeField] private PatrolPoint[] patrolPath;
@@ -71,7 +72,13 @@ public class Guard : MonoBehaviour
         }
     }
 
-    Collider[] guardsNearby = new Collider[32];
+    private void LateUpdate()
+    {
+        if (aggroDecal.activeSelf)
+            aggroDecal.transform.LookAt(Camera.main.transform.position);
+    }
+
+    private Collider[] guardsNearby = new Collider[32];
     private void ChaseLoop()
     {
 
@@ -140,6 +147,15 @@ public class Guard : MonoBehaviour
 
     public void ForceAggrestion(float newAggression)
     {
+        aggroDecal.SetActive(true);
+        agent.speed = 0;
+
+        StartCoroutine(DelayedFunction(1, () =>
+        {
+            aggroDecal.SetActive(false);
+            agent.speed = settings.guardChaseSpeed;
+        }));
+
         currentAggressionDistance = newAggression;
 
         Debug.Log("aggression forced: " + gameObject.name, this);
@@ -148,7 +164,6 @@ public class Guard : MonoBehaviour
         state = GuardState.Chase;
         if (patrolCoroutine != null)
             StopCoroutine(patrolCoroutine);
-        agent.speed = settings.guardChaseSpeed;
     }
 
     public void UpdatePlayerLastSeen(Vector3 location)
@@ -216,9 +231,7 @@ public class Guard : MonoBehaviour
         if (currentAggressionDistance > distanceToPlayer)
         {
             // Convert guard to chase state
-            state = GuardState.Chase;
-            StopCoroutine(patrolCoroutine);
-            agent.speed = settings.guardChaseSpeed;
+            ForceAggrestion(currentAggressionDistance);
             return;
         }
     }
@@ -275,7 +288,7 @@ public class Guard : MonoBehaviour
 
         if (detectionDistance > distanceToPlayer && Mathf.Abs(angleToPlayer) < settings.detectionAngle / 2.0f)
         {
-            if (Physics.Linecast(transform.position, player.transform.position, out RaycastHit hit))
+            if (Physics.Linecast(transform.position, player.transform.position, out RaycastHit hit, ~guardLayer))
                 if (!hit.collider.CompareTag("Player"))
                     return false;
 
@@ -285,6 +298,12 @@ public class Guard : MonoBehaviour
         }
         
         return false;
+    }
+
+    private IEnumerator DelayedFunction(float delay, System.Action func)
+    {
+        yield return new WaitForSeconds(delay);
+        func.Invoke();
     }
 
     private bool HasAgentReachedLocation()

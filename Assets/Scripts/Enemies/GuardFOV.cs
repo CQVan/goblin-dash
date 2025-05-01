@@ -39,7 +39,13 @@ public class GuardFOV : MonoBehaviour
 
     private void LateUpdate()
     {
-        DrawFieldOfView(regularMesh, settings.detectionStartDistance);
+        if (guard.GetCurrentAggroDistance() != settings.detectionStartDistance)
+        {
+            viewMeshFilter.gameObject.SetActive(true);
+            DrawFieldOfView(regularMesh, settings.detectionStartDistance);
+        }else
+            viewMeshFilter.gameObject.SetActive(false);
+
 
         if (guard.GetCurrentAggroDistance() > 0)
         {
