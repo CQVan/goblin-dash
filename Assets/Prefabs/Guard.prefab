@@ -233,7 +233,7 @@ NavMeshAgent:
   m_Speed: 3.5
   m_Acceleration: 1e+19
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 360
   m_StoppingDistance: 1
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
@@ -282,6 +282,7 @@ MonoBehaviour:
   guardLayer:
     serializedVersion: 2
     m_Bits: 8
+  aggroDecal: {fileID: 0}
   patrolPath: []
   joinChaseTimer: 0
 --- !u!114 &3278307944849478331
@@ -303,7 +304,7 @@ MonoBehaviour:
   aggroMeshFilter: {fileID: 3397600074801355614}
   ignoreMask:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 72
 --- !u!1 &1304365292992287025
 GameObject:
   m_ObjectHideFlags: 0
