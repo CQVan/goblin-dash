@@ -17,11 +17,11 @@ public class Laser : MonoBehaviour
     {
         if(Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, laserRange))
         {
-            laserRenderer.SetPosition(1, hit.point);
+            laserRenderer.SetPosition(1, transform.InverseTransformPoint(hit.point));
             if (hit.collider.CompareTag("Player"))
                 for (int i = 0; i < Physics.OverlapSphereNonAlloc(hit.point, alertRange, guardBuffer); i++)
                 {
-                    if (guardBuffer[i].TryGetComponent<Guard>(out Guard guard))
+                    if (guardBuffer[i].TryGetComponent(out Guard guard))
                     {
                         guard.UpdatePlayerLastSeen(hit.point);
                         guard.ForceAggrestion(laserRange - Vector3.Distance(hit.point, transform.position));
