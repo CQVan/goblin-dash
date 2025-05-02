@@ -6,12 +6,20 @@ public class Laser : MonoBehaviour
     public float alertRange;
 
     private Collider[] guardBuffer = new Collider[32];
+    private LineRenderer laserRenderer;
+
+    private void Awake()
+    {
+        laserRenderer = GetComponent<LineRenderer>();
+    }
 
     private void Update()
     {
         if(Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, laserRange))
+        {
+            laserRenderer.SetPosition(1, hit.point);
             if (hit.collider.CompareTag("Player"))
-                for(int i = 0; i < Physics.OverlapSphereNonAlloc(hit.point, alertRange, guardBuffer); i++)
+                for (int i = 0; i < Physics.OverlapSphereNonAlloc(hit.point, alertRange, guardBuffer); i++)
                 {
                     if (guardBuffer[i].TryGetComponent<Guard>(out Guard guard))
                     {
@@ -19,6 +27,11 @@ public class Laser : MonoBehaviour
                         guard.ForceAggrestion(laserRange - Vector3.Distance(hit.point, transform.position));
                     }
                 }
+        }
+        else
+        {
+            laserRenderer.SetPosition(1, Vector3.forward * laserRange);
+        }
     }
     private void OnDrawGizmos()
     {
