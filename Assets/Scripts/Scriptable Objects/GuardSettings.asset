@@ -12,12 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9ede8d89b1f1fe4bb4e109232bdc69b, type: 3}
   m_Name: GuardSettings
   m_EditorClassIdentifier: 
-  detectionStartDistance: 5
+  detectionStartDistance: 18.89
   detectionAngle: 90
   detectionRate: 2
   sneakingDetectionRate: 1
   sneakingDetectionDistance: 3.5
+  startDeaggressionTime: 0.5
   guardPatrolSpeed: 1
   joinChaseMaxDistance: 10
+  timeToJoinChase: 2
+  timeToResetJoinChase: 0
   deaggressionRate: 1
   guardChaseSpeed: 3
