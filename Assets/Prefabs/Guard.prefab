@@ -316,7 +316,7 @@ MonoBehaviour:
   guardLayer:
     serializedVersion: 2
     m_Bits: 8
-  aggroDecal: {fileID: 0}
+  aggroDecal: {fileID: 791274474491603053}
   patrolPath: []
   joinChaseTimer: 0
 --- !u!114 &3278307944849478331
