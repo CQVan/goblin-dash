@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
@@ -28,9 +29,12 @@ public class Guard : MonoBehaviour
     [Header("Patrol Path")]
     [SerializeField] private PatrolPoint[] patrolPath;
 
+    private Animator animator;
     private GameObject player;
     private Collider playerCollider;
     private NavMeshAgent agent;
+    private Vector3 lastPosition;
+    private float currentSpeed;
 
     private static Vector3 playerLastSeen;
     private GuardState state = GuardState.Patrol;
@@ -49,6 +53,8 @@ public class Guard : MonoBehaviour
 
     private void Start()
     {
+        animator = GetComponent<Animator>();
+
         player = GameObject.FindGameObjectWithTag("Player");
         playerCollider = player.GetComponent<Collider>();
         agent = GetComponent<NavMeshAgent>();
@@ -73,6 +79,14 @@ public class Guard : MonoBehaviour
                 Debug.LogWarning("GuardState not implemented");
                 break;
         }
+
+        currentSpeed = ((transform.position - lastPosition).magnitude / Time.deltaTime);
+        lastPosition = transform.position;
+     
+        if (currentSpeed >= 1f)
+            animator.SetBool("IsMoving", true);
+        else
+            animator.SetBool("IsMoving", false);
     }
 
     private void LateUpdate()
@@ -80,6 +94,7 @@ public class Guard : MonoBehaviour
         if (aggroDecal.activeSelf)
             aggroDecal.transform.LookAt(Camera.main.transform.position);
     }
+
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -161,6 +176,7 @@ public class Guard : MonoBehaviour
         }
 
         agent.SetDestination(playerLastSeen);
+
     }
 
     public void ForceAggrestion(float newAggression)
@@ -236,6 +252,7 @@ public class Guard : MonoBehaviour
         }
         else
         {
+
             if (deaggressionCoroutine == null)
                 deaggressionCoroutine = StartCoroutine(DeaggressionCoroutine());
 

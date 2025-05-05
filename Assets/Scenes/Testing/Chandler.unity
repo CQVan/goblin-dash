@@ -795,6 +795,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9152660119268390535, guid: cb326fc248400a64794096305b679d3b, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.000015258789
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1242,22 +1246,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Guard
       objectReference: {fileID: 0}
-    - target: {fileID: 4526543710085252767, guid: 3356640fb521e37448adbc527bb8b7fd, type: 3}
-      propertyPath: patrolPath.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4526543710085252767, guid: 3356640fb521e37448adbc527bb8b7fd, type: 3}
-      propertyPath: patrolPath.Array.data[0].location
-      value: 
-      objectReference: {fileID: 509811530}
-    - target: {fileID: 4526543710085252767, guid: 3356640fb521e37448adbc527bb8b7fd, type: 3}
-      propertyPath: patrolPath.Array.data[1].location
-      value: 
-      objectReference: {fileID: 1509005829}
-    - target: {fileID: 4526543710085252767, guid: 3356640fb521e37448adbc527bb8b7fd, type: 3}
-      propertyPath: patrolPath.Array.data[2].location
-      value: 
-      objectReference: {fileID: 433023600}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
