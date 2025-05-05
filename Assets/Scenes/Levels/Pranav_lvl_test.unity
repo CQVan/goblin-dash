@@ -3164,6 +3164,7 @@ GameObject:
   - component: {fileID: 422947404}
   - component: {fileID: 422947406}
   - component: {fileID: 422947405}
+  - component: {fileID: 422947407}
   m_Layer: 0
   m_Name: SM_Wall_6x3_LOD0 (1)
   m_TagString: Untagged
@@ -3239,6 +3240,27 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &422947407
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 422947403}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.100000076, y: 3, z: 6}
+  m_Center: {x: -0.05, y: 1.5, z: 0}
 --- !u!1001 &426414199
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7964,6 +7986,7 @@ GameObject:
   - component: {fileID: 1211125179}
   - component: {fileID: 1211125181}
   - component: {fileID: 1211125180}
+  - component: {fileID: 1211125182}
   m_Layer: 0
   m_Name: SM_Fountain_LOD3 (1)
   m_TagString: Untagged
@@ -8039,6 +8062,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &1211125182
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1211125178}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300006, guid: abc00000000000724593410676200904, type: 3}
 --- !u!1001 &1213706606
 PrefabInstance:
   m_ObjectHideFlags: 0
