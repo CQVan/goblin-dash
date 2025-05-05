@@ -30,6 +30,8 @@ public class PlayerUIManager : MonoBehaviour
     {
         pauseMenu.SetActive(false);
         optionsMenu.SetActive(false);
+
+        StartCoroutine(FTWTransition(() => { }));
     }
 
     private void Update()
@@ -113,6 +115,22 @@ public class PlayerUIManager : MonoBehaviour
         }
 
         ftbImage.color = new(0, 0, 0, 1);
+        yield return new WaitForEndOfFrame();
+
+        finishCallback.Invoke();
+    }
+
+    public IEnumerator FTWTransition(System.Action finishCallback)
+    {
+        float currentTime = 0;
+        while (currentTime <= fadeToBlackTime)
+        {
+            ftbImage.color = new Color(0, 0, 0, 1 - currentTime / fadeToBlackTime);
+            yield return new WaitForEndOfFrame();
+            currentTime += Time.unscaledDeltaTime;
+        }
+
+        ftbImage.color = new(0, 0, 0, 0);
         yield return new WaitForEndOfFrame();
 
         finishCallback.Invoke();

@@ -98,17 +98,6 @@ public class move : MonoBehaviour
 
             //Apply movement (One I created beforehand)
             rb.linearVelocity = new Vector3(move.x * currentSpeed, rb.linearVelocity.y, move.z * currentSpeed);
-
-
-
-
-
-
-
-
-
-
-
         }
 
 
