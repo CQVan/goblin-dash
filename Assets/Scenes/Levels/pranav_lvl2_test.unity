@@ -26013,6 +26013,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_OutsideBench (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1031207325, guid: abc00000000008758548247616897852, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 1031207326, guid: abc00000000008758548247616897852, type: 3}
       propertyPath: m_LocalScale.x
       value: 3.0998745
@@ -36067,6 +36071,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_OutsideBench (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 1031207325, guid: abc00000000008758548247616897852, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 1031207326, guid: abc00000000008758548247616897852, type: 3}
       propertyPath: m_LocalScale.x
       value: 3.0998745
@@ -45779,6 +45787,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_OutsideBench
       objectReference: {fileID: 0}
+    - target: {fileID: 1031207325, guid: abc00000000008758548247616897852, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 1031207326, guid: abc00000000008758548247616897852, type: 3}
       propertyPath: m_LocalScale.x
       value: 3.1346555
@@ -46600,6 +46612,10 @@ PrefabInstance:
     - target: {fileID: 1031207325, guid: abc00000000008758548247616897852, type: 3}
       propertyPath: m_Name
       value: SM_OutsideBench (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1031207325, guid: abc00000000008758548247616897852, type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 1031207326, guid: abc00000000008758548247616897852, type: 3}
       propertyPath: m_LocalScale.x
