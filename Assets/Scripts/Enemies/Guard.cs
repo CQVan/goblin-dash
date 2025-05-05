@@ -28,6 +28,7 @@ public class Guard : MonoBehaviour
     [SerializeField] private PatrolPoint[] patrolPath;
 
     private GameObject player;
+    private Collider playerCollider;
     private NavMeshAgent agent;
 
     private static Vector3 playerLastSeen;
@@ -48,6 +49,7 @@ public class Guard : MonoBehaviour
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        playerCollider = player.GetComponent<Collider>();
         agent = GetComponent<NavMeshAgent>();
 
         agent.speed = settings.guardPatrolSpeed;
@@ -165,6 +167,8 @@ public class Guard : MonoBehaviour
         if (patrolCoroutine != null)
             StopCoroutine(patrolCoroutine);
     }
+
+    public GuardState GetGuardState() { return state; }
 
     public void UpdatePlayerLastSeen(Vector3 location)
     {
@@ -286,9 +290,11 @@ public class Guard : MonoBehaviour
 
         float detectionDistance = false ? settings.sneakingDetectionDistance : settings.detectionStartDistance;
 
+        Debug.Log($"{detectionDistance > distanceToPlayer} && {Mathf.Abs(angleToPlayer) < settings.detectionAngle / 2.0f}");
+
         if (detectionDistance > distanceToPlayer && Mathf.Abs(angleToPlayer) < settings.detectionAngle / 2.0f)
         {
-            if (Physics.Linecast(transform.position, player.transform.position, out RaycastHit hit, ~guardLayer))
+            if (Physics.Linecast(transform.position, playerCollider.bounds.center, out RaycastHit hit, ~guardLayer))
                 if (!hit.collider.CompareTag("Player"))
                     return false;
 
@@ -331,7 +337,7 @@ public class Guard : MonoBehaviour
             else
                 Gizmos.color = Color.red;
 
-            Gizmos.DrawLine(transform.position, player.transform.position);
+            Gizmos.DrawLine(transform.position, playerCollider.bounds.center);
         }
     }
     #endregion

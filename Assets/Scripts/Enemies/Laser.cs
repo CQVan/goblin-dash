@@ -23,8 +23,11 @@ public class Laser : MonoBehaviour
                 {
                     if (guardBuffer[i].TryGetComponent(out Guard guard))
                     {
-                        guard.UpdatePlayerLastSeen(hit.point);
-                        guard.ForceAggrestion(laserRange - Vector3.Distance(hit.point, transform.position));
+                        if(guard.GetGuardState() == Guard.GuardState.Patrol)
+                        {
+                            guard.UpdatePlayerLastSeen(hit.point);
+                            guard.ForceAggrestion(laserRange - Vector3.Distance(hit.point, transform.position));
+                        }
                     }
                 }
         }
