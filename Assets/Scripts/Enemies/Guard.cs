@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class Guard : MonoBehaviour
 {
@@ -78,6 +79,21 @@ public class Guard : MonoBehaviour
     {
         if (aggroDecal.activeSelf)
             aggroDecal.transform.LookAt(Camera.main.transform.position);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            PlayerUIManager ui = FindFirstObjectByType<PlayerUIManager>();
+
+            AsyncOperation reloadScene = SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+            reloadScene.allowSceneActivation = false;
+            StartCoroutine(ui.FTBTransition(() =>
+            {
+                reloadScene.allowSceneActivation = true;
+            }));
+        }
     }
 
     private Collider[] guardsNearby = new Collider[32];

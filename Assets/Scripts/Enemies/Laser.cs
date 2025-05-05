@@ -43,4 +43,5 @@ public class Laser : MonoBehaviour
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, alertRange);    
     }
+
 }
