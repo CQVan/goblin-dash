@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Laser : MonoBehaviour
 {
@@ -13,11 +14,16 @@ public class Laser : MonoBehaviour
         laserRenderer = GetComponent<LineRenderer>();
     }
 
+    private void Start()
+    {
+        laserRenderer.SetPosition(0, transform.position);
+    }
+
     private void Update()
     {
         if(Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, laserRange))
         {
-            laserRenderer.SetPosition(1, transform.InverseTransformPoint(hit.point));
+            laserRenderer.SetPosition(1, hit.point);
             if (hit.collider.CompareTag("Player"))
                 for (int i = 0; i < Physics.OverlapSphereNonAlloc(hit.point, alertRange, guardBuffer); i++)
                 {
@@ -32,7 +38,7 @@ public class Laser : MonoBehaviour
         }
         else
         {
-            laserRenderer.SetPosition(1, Vector3.forward * laserRange);
+            laserRenderer.SetPosition(1, transform.position + transform.forward * laserRange);
         }
     }
     private void OnDrawGizmos()
