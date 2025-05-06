@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class MainMenuManager : MonoBehaviour
 {
-    public SceneAsset startScene;
+    public int startSceneIndex = 5;
     public RawImage ftbImage;
     public GameObject mainMenuButtons;
     public GameObject creditsMenu;
@@ -33,7 +33,7 @@ public class MainMenuManager : MonoBehaviour
     public void OnStartClick()
     {
         SoundManager.instance.PlayOneshotAudio(startPressedSound, Camera.main.transform.position, SoundManager.SoundType.sfx);
-        AsyncOperation sceneLoadOp = SceneManager.LoadSceneAsync(startScene.name, LoadSceneMode.Single);
+        AsyncOperation sceneLoadOp = SceneManager.LoadSceneAsync(startSceneIndex, LoadSceneMode.Single);
         sceneLoadOp.allowSceneActivation = false;
 
         ftbImage.raycastTarget = true;
