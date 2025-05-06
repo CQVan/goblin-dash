@@ -26,6 +26,7 @@ public class Guard : MonoBehaviour
     [SerializeField] private LayerMask guardLayer;
     [SerializeField] private GameObject aggroDecal;
     [SerializeField] private AudioClip chaseStartClip;
+    [SerializeField] private AudioClip[] footstepClips;
 
     [Header("Patrol Path")]
     [SerializeField] private PatrolPoint[] patrolPath;
@@ -86,9 +87,12 @@ public class Guard : MonoBehaviour
         lastPosition = transform.position;
      
         if (currentSpeed > 0.0f)
+        {
             animator.SetBool("IsMoving", true);
+        }
         else
             animator.SetBool("IsMoving", false);
+
     }
 
     private void LateUpdate()
@@ -96,7 +100,6 @@ public class Guard : MonoBehaviour
         if (aggroDecal.activeSelf)
             aggroDecal.transform.LookAt(Camera.main.transform.position);
     }
-
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -112,6 +115,13 @@ public class Guard : MonoBehaviour
                 reloadScene.allowSceneActivation = true;
             }));
         }
+    }
+
+    public void PlayFootstepClip()
+    {
+        int footstep = Random.Range(0, footstepClips.Length - 1);
+
+        SoundManager.instance.PlayOneshotAudio(footstepClips[footstep], transform.position, SoundManager.SoundType.sfx, 0.9f);
     }
 
     private Collider[] guardsNearby = new Collider[32];
