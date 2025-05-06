@@ -29,6 +29,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Levels/Tutorial.unity
     guid: f5722fe37929ce54fa456fdc1c2134a5
+  - enabled: 1
+    path: Assets/Scenes/Levels/Taylor_lvl.unity
+    guid: efb251d23800c0e499c43c87bcb8e8b8
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
