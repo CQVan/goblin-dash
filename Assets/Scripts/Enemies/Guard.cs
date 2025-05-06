@@ -58,7 +58,7 @@ public class Guard : MonoBehaviour
     {
         animator = GetComponent<Animator>();
 
-        player = GameObject.FindGameObjectWithTag("Player");
+        player = FindFirstObjectByType<movement>().gameObject;
         playerCollider = player.GetComponent<movement>().playerCollider;
         agent = GetComponent<NavMeshAgent>();
 
@@ -384,7 +384,6 @@ public class Guard : MonoBehaviour
             else
                 Gizmos.color = Color.red;
 
-            Gizmos.DrawLine(transform.position, playerCollider.bounds.center);
         }
     }
     #endregion
