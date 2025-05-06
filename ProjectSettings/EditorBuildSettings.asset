@@ -20,6 +20,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Levels/Pranav_lvl_test.unity
     guid: a188f88e4d58cd248a51d17716e6801c
+  - enabled: 1
+    path: Assets/Scenes/Levels/Level 2 - Ben.unity
+    guid: 16cf418e7bbdb484eae37f60b91dbedd
+  - enabled: 1
+    path: Assets/Scenes/Levels/pranav_lvl2_test.unity
+    guid: cc2a61229b9dd644685105e5319981fb
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
