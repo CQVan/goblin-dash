@@ -25,6 +25,7 @@ public class move : MonoBehaviour
     [SerializeField] private float dashSpeed = 25f;
     [SerializeField] private float dashDuration = 0.2f;
     [SerializeField] private float dashCooldown = 1f;
+    [SerializeField] private AudioClip[] dashSounds;
 
     private bool isDashing = false;
     private float dashStartTime;
@@ -129,6 +130,8 @@ public class move : MonoBehaviour
     }
     public void StartDash(Vector3 inputDirection)
     {
+        SoundManager.instance.PlayOneshotAudio(dashSounds[Random.Range(0, dashSounds.Length-1)], transform.position,SoundManager.SoundType.sfx);
+
         isDashing = true;
         dashStartTime = Time.time;
         lastDashTime = Time.time;
@@ -140,9 +143,5 @@ public class move : MonoBehaviour
         Vector3 move = cameraForward * inputDirection.z + cameraTransform.right * inputDirection.x;
         dashDirection = move.normalized;
     }
-
-
-
-
 
 }
