@@ -34,6 +34,7 @@ public class move : MonoBehaviour
     private Animator animator;
     private float goblinSpeed;
     private Vector3 lastPosition;
+    private Rigidbody goblinBody;
 
 
     void Start()
@@ -44,6 +45,7 @@ public class move : MonoBehaviour
         rb.freezeRotation = true;
 
         animator = GetComponent<Animator>();
+        goblinBody = GetComponent<Rigidbody>();
 
     }
 
@@ -51,14 +53,15 @@ public class move : MonoBehaviour
 
     private void Update()
     {
-        goblinSpeed = ((transform.position - lastPosition).magnitude / Time.deltaTime);
-        lastPosition = transform.position;
-
-        print("GoblinSpeed = " + goblinSpeed);
 
         // Handling animation cases
-        if (goblinSpeed >= 1) // Player is moving
+        if (goblinBody.linearVelocity.magnitude > 0) // Player is moving
         {
+            if (Input.GetKey(KeyCode.Space))
+                animator.SetBool("IsJumping", true);
+            else
+                animator.SetBool("IsJumping", false);
+
             animator.SetBool("IsMoving", true);
 
             //Checking if player is crouching while moving
@@ -69,6 +72,11 @@ public class move : MonoBehaviour
         }
         else // Player is Idle
         {
+            if (Input.GetKey(KeyCode.Space))
+                animator.SetBool("IsJumping", true);
+            else
+                animator.SetBool("IsJumping", false);
+
             animator.SetBool("IsMoving", false);
 
             // Checking if player is crouching while idle
@@ -77,7 +85,6 @@ public class move : MonoBehaviour
             else
                 animator.SetBool("IsCrouching", false);
         }
-        
     }
 
 
