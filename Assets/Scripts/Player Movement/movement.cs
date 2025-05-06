@@ -90,18 +90,22 @@ public class movement : MonoBehaviour
     void OnCollisionStay(Collision collision)
     {
         if (collision.gameObject.tag == "Ground")
+        {
             isGrounded = true;
+        }
 
-        
+        else if (collision.gameObject.tag != "Ground")
+        {
+            isGrounded = false;
+        }
+
     }
 
     
     void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.tag != "Ground")
-        {
-            isGrounded = false;
-        }
+
+        
         isGrounded = false;
             
     }
