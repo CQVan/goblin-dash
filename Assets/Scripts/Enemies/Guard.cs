@@ -337,7 +337,7 @@ public class Guard : MonoBehaviour
 
         float detectionDistance = false ? settings.sneakingDetectionDistance : settings.detectionStartDistance;
 
-        Debug.Log($"{detectionDistance > distanceToPlayer} && {Mathf.Abs(angleToPlayer) < settings.detectionAngle / 2.0f}");
+        //Debug.Log($"{detectionDistance > distanceToPlayer} && {Mathf.Abs(angleToPlayer) < settings.detectionAngle / 2.0f}");
 
         if (detectionDistance > distanceToPlayer && Mathf.Abs(angleToPlayer) < settings.detectionAngle / 2.0f)
         {
