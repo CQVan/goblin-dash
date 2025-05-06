@@ -59,7 +59,7 @@ public class Guard : MonoBehaviour
         animator = GetComponent<Animator>();
 
         player = GameObject.FindGameObjectWithTag("Player");
-        playerCollider = player.GetComponent<Collider>();
+        playerCollider = player.GetComponent<movement>().playerCollider;
         agent = GetComponent<NavMeshAgent>();
 
         agent.speed = settings.guardPatrolSpeed;

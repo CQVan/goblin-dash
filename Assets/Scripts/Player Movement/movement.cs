@@ -10,6 +10,7 @@ public class movement : MonoBehaviour
     [Header("Variables")]
     [SerializeField] private bool isGrounded;
     [SerializeField] public bool isDashing;
+    public Collider playerCollider;
 
     [Header("Dash Variables")]
 

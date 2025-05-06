@@ -13100,18 +13100,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Goblin Player Variant
       objectReference: {fileID: 0}
-    - target: {fileID: 1550309855797532875, guid: cb326fc248400a64794096305b679d3b, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -6.0199986
-      objectReference: {fileID: 0}
-    - target: {fileID: 1550309855797532875, guid: cb326fc248400a64794096305b679d3b, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 3.54
-      objectReference: {fileID: 0}
-    - target: {fileID: 1550309855797532875, guid: cb326fc248400a64794096305b679d3b, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -3.6800013
-      objectReference: {fileID: 0}
     - target: {fileID: 2060195480396427467, guid: cb326fc248400a64794096305b679d3b, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -13135,6 +13123,16 @@ PrefabInstance:
     - target: {fileID: 2060195480396427467, guid: cb326fc248400a64794096305b679d3b, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2922565125403742561, guid: cb326fc248400a64794096305b679d3b, type: 3}
+      propertyPath: m_WarningMessage
+      value: "\nBinding warning: Some generic clip(s) animate transforms that are
+        already bound by a Humanoid avatar. These transforms can only be changed
+        by Humanoid clips.\n\tTransform 'Armature.001'\n\tTransform 'Hand.L'\n\tTransform
+        'Spine.003'\n\tTransform 'UpperLeg.R'\n\tTransform 'Spine.002'\n\tTransform
+        'LowerLeg.L'\n\tTransform 'Armature.001'\n\tTransform 'LowerLeg.R'\n\tTransform
+        'Foot.L'\n\tTransform 'Spine.001'\n\tand more ...\n\tFrom animation clip
+        'mixamo.com'"
       objectReference: {fileID: 0}
     - target: {fileID: 8244226581889874956, guid: cb326fc248400a64794096305b679d3b, type: 3}
       propertyPath: m_AnchorMax.y
@@ -13200,17 +13198,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9152660119268390535, guid: cb326fc248400a64794096305b679d3b, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2655413986609103156, guid: cb326fc248400a64794096305b679d3b, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 715983292}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cb326fc248400a64794096305b679d3b, type: 3}
 --- !u!1 &285584532 stripped
 GameObject:
@@ -31486,26 +31477,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: abc00000000010585247582816301689, type: 3}
---- !u!1 &715983286 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2655413986609103156, guid: cb326fc248400a64794096305b679d3b, type: 3}
-  m_PrefabInstance: {fileID: 285584531}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &715983292
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 715983286}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
-  m_sendNavigationEvents: 1
-  m_DragThreshold: 10
 --- !u!1 &716944711
 GameObject:
   m_ObjectHideFlags: 0
