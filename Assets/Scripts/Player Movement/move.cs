@@ -25,16 +25,19 @@ public class move : MonoBehaviour
     [SerializeField] private float dashSpeed = 25f;
     [SerializeField] private float dashDuration = 0.2f;
     [SerializeField] private float dashCooldown = 1f;
+    [SerializeField] private AudioClip[] dashSounds;
 
     private bool isDashing = false;
     private float dashStartTime;
     private float lastDashTime;
     private Vector3 dashDirection;
 
+
     private Animator animator;
     private float goblinSpeed;
     private Vector3 lastPosition;
     private Rigidbody goblinBody;
+
 
 
     void Start()
@@ -87,8 +90,11 @@ public class move : MonoBehaviour
         }
     }
 
+    
 
+    
 
+    
     public void playerMovement()
     {
         //Get the horizontal and vertical axes
@@ -104,7 +110,6 @@ public class move : MonoBehaviour
             StartDash(moveDirection);
         }
 
-
         if (isDashing)
         {
             rb.linearVelocity = new Vector3(dashDirection.x * dashSpeed, rb.linearVelocity.y, dashDirection.z * dashSpeed);
@@ -116,6 +121,8 @@ public class move : MonoBehaviour
 
             return; // Skip regular movement during dash
         }
+
+
 
 
 
@@ -139,6 +146,11 @@ public class move : MonoBehaviour
         }
 
 
+
+
+
+
+
         
         if (Input.GetKeyDown(KeyCode.LeftControl))
         {
@@ -154,11 +166,16 @@ public class move : MonoBehaviour
             isSneaking= false;
         }
 
+
+
+
+
+
     }
-
-
     public void StartDash(Vector3 inputDirection)
     {
+        SoundManager.instance.PlayOneshotAudio(dashSounds[Random.Range(0, dashSounds.Length-1)], transform.position,SoundManager.SoundType.sfx);
+
         isDashing = true;
         dashStartTime = Time.time;
         lastDashTime = Time.time;
