@@ -9,7 +9,7 @@ public class PlayerUIManager : MonoBehaviour
     [Header("References")]
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private GameObject optionsMenu;
-    [SerializeField] private SceneAsset mainMenuScene;
+    [SerializeField] private int mainMenuSceneIndex;
 
     [Header("Scene Transtion")]
     [SerializeField] private RawImage ftbImage;
@@ -91,8 +91,9 @@ public class PlayerUIManager : MonoBehaviour
 
     public void OnHomeClick()
     {
+        Debug.Log("fric");
         SoundManager.instance.PlayOneshotAudio(homePressedSound, Camera.main.transform.position, SoundManager.SoundType.sfx);
-        AsyncOperation sceneLoadOp = SceneManager.LoadSceneAsync(mainMenuScene.name, LoadSceneMode.Single);
+        AsyncOperation sceneLoadOp = SceneManager.LoadSceneAsync(mainMenuSceneIndex, LoadSceneMode.Single);
         sceneLoadOp.allowSceneActivation = false;
 
         ftbImage.raycastTarget = true;
