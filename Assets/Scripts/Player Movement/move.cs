@@ -25,15 +25,15 @@ public class move : MonoBehaviour
     [SerializeField] private float dashSpeed = 25f;
     [SerializeField] private float dashDuration = 0.2f;
     [SerializeField] private float dashCooldown = 1f;
+    [SerializeField] private AudioClip[] dashSounds;
 
     private bool isDashing = false;
     private float dashStartTime;
     private float lastDashTime;
     private Vector3 dashDirection;
 
-    private Animator animator;
-    private float goblinSpeed;
-    private Vector3 lastPosition;
+
+    
 
 
     void Start()
@@ -43,45 +43,14 @@ public class move : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
 
-        animator = GetComponent<Animator>();
-
-    }
-
-
-
-    private void Update()
-    {
-        goblinSpeed = ((transform.position - lastPosition).magnitude / Time.deltaTime);
-        lastPosition = transform.position;
-
-        print("GoblinSpeed = " + goblinSpeed);
-
-        // Handling animation cases
-        if (goblinSpeed >= 1) // Player is moving
-        {
-            animator.SetBool("IsMoving", true);
-
-            //Checking if player is crouching while moving
-            if (Input.GetKey(KeyCode.LeftControl))
-                animator.SetBool("IsCrouching", true);
-            else
-                animator.SetBool("IsCrouching", false);
-        }
-        else // Player is Idle
-        {
-            animator.SetBool("IsMoving", false);
-
-            // Checking if player is crouching while idle
-            if (Input.GetKey(KeyCode.LeftControl))
-                animator.SetBool("IsCrouching", true);
-            else
-                animator.SetBool("IsCrouching", false);
-        }
         
     }
 
+    
 
+    
 
+    
     public void playerMovement()
     {
         //Get the horizontal and vertical axes
@@ -97,7 +66,6 @@ public class move : MonoBehaviour
             StartDash(moveDirection);
         }
 
-
         if (isDashing)
         {
             rb.linearVelocity = new Vector3(dashDirection.x * dashSpeed, rb.linearVelocity.y, dashDirection.z * dashSpeed);
@@ -109,6 +77,8 @@ public class move : MonoBehaviour
 
             return; // Skip regular movement during dash
         }
+
+
 
 
 
@@ -132,6 +102,11 @@ public class move : MonoBehaviour
         }
 
 
+
+
+
+
+
         
         if (Input.GetKeyDown(KeyCode.LeftControl))
         {
@@ -147,11 +122,16 @@ public class move : MonoBehaviour
             isSneaking= false;
         }
 
+
+
+
+
+
     }
-
-
     public void StartDash(Vector3 inputDirection)
     {
+        SoundManager.instance.PlayOneshotAudio(dashSounds[Random.Range(0, dashSounds.Length-1)], transform.position,SoundManager.SoundType.sfx);
+
         isDashing = true;
         dashStartTime = Time.time;
         lastDashTime = Time.time;

@@ -25,6 +25,8 @@ public class Guard : MonoBehaviour
     [SerializeField] private Transform eyeTransform;
     [SerializeField] private LayerMask guardLayer;
     [SerializeField] private GameObject aggroDecal;
+    [SerializeField] private AudioClip chaseStartClip;
+    [SerializeField] private AudioClip[] footstepClips;
 
     [Header("Patrol Path")]
     [SerializeField] private PatrolPoint[] patrolPath;
@@ -37,6 +39,7 @@ public class Guard : MonoBehaviour
     private float currentSpeed;
 
     private static Vector3 playerLastSeen;
+    private static bool caughtPlayer = false;
     private GuardState state = GuardState.Patrol;
 
     private Coroutine patrolCoroutine;
@@ -83,10 +86,13 @@ public class Guard : MonoBehaviour
         currentSpeed = ((transform.position - lastPosition).magnitude / Time.deltaTime);
         lastPosition = transform.position;
      
-        if (currentSpeed >= 1f)
+        if (currentSpeed > 0.0f)
+        {
             animator.SetBool("IsMoving", true);
+        }
         else
             animator.SetBool("IsMoving", false);
+
     }
 
     private void LateUpdate()
@@ -95,11 +101,11 @@ public class Guard : MonoBehaviour
             aggroDecal.transform.LookAt(Camera.main.transform.position);
     }
 
-
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player") && !caughtPlayer)
         {
+            caughtPlayer = true;
             PlayerUIManager ui = FindFirstObjectByType<PlayerUIManager>();
 
             AsyncOperation reloadScene = SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
@@ -109,6 +115,13 @@ public class Guard : MonoBehaviour
                 reloadScene.allowSceneActivation = true;
             }));
         }
+    }
+
+    public void PlayFootstepClip()
+    {
+        int footstep = Random.Range(0, footstepClips.Length - 1);
+
+        SoundManager.instance.PlayOneshotAudio(footstepClips[footstep], transform.position, SoundManager.SoundType.sfx, 0.9f);
     }
 
     private Collider[] guardsNearby = new Collider[32];
@@ -182,6 +195,7 @@ public class Guard : MonoBehaviour
     public void ForceAggrestion(float newAggression)
     {
         aggroDecal.SetActive(true);
+        SoundManager.instance.PlayOneshotAudio(chaseStartClip, transform.position, SoundManager.SoundType.sfx);
         agent.speed = 0;
 
         StartCoroutine(DelayedFunction(1, () =>
