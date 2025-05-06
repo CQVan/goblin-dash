@@ -37,6 +37,7 @@ public class Guard : MonoBehaviour
     private float currentSpeed;
 
     private static Vector3 playerLastSeen;
+    private static bool caughtPlayer = false;
     private GuardState state = GuardState.Patrol;
 
     private Coroutine patrolCoroutine;
@@ -83,7 +84,7 @@ public class Guard : MonoBehaviour
         currentSpeed = ((transform.position - lastPosition).magnitude / Time.deltaTime);
         lastPosition = transform.position;
      
-        if (currentSpeed >= 1f)
+        if (currentSpeed > 0.0f)
             animator.SetBool("IsMoving", true);
         else
             animator.SetBool("IsMoving", false);
@@ -98,8 +99,9 @@ public class Guard : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player") && !caughtPlayer)
         {
+            caughtPlayer = true;
             PlayerUIManager ui = FindFirstObjectByType<PlayerUIManager>();
 
             AsyncOperation reloadScene = SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
