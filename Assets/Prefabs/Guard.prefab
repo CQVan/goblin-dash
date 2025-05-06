@@ -318,6 +318,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   aggroDecal: {fileID: 791274474491603053}
+  chaseStartClip: {fileID: 8300000, guid: 06e556c70d7a8da49922d95d6003c973, type: 3}
   patrolPath: []
   joinChaseTimer: 0
 --- !u!114 &3278307944849478331

@@ -25,6 +25,7 @@ public class Guard : MonoBehaviour
     [SerializeField] private Transform eyeTransform;
     [SerializeField] private LayerMask guardLayer;
     [SerializeField] private GameObject aggroDecal;
+    [SerializeField] private AudioClip chaseStartClip;
 
     [Header("Patrol Path")]
     [SerializeField] private PatrolPoint[] patrolPath;
@@ -184,6 +185,7 @@ public class Guard : MonoBehaviour
     public void ForceAggrestion(float newAggression)
     {
         aggroDecal.SetActive(true);
+        SoundManager.instance.PlayOneshotAudio(chaseStartClip, transform.position, SoundManager.SoundType.sfx);
         agent.speed = 0;
 
         StartCoroutine(DelayedFunction(1, () =>
